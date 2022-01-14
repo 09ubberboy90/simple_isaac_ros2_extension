@@ -11,7 +11,8 @@ from omni.isaac.core.utils.stage import add_reference_to_stage
 import numpy as np
 import omni
 import omni.kit.commands
-
+from omni.isaac.urdf import _urdf
+from omni.isaac.core.utils.stage import get_stage_units
 class WorldHandler(BaseSample):
     def __init__(self) -> None:
         super().__init__()
@@ -22,11 +23,34 @@ class WorldHandler(BaseSample):
         result, prim = omni.kit.commands.execute("Ros2BridgeUseSimTime", use_sim_time=False)
         # TODO: replace with ros getshare path
         omni.usd.get_context().open_stage("/home/ubb/Documents/docker_sim_comp/Isaac/ubb/Isaacdev/src/simple_move_group/urdf/world.usd")
+        urdf_interface = _urdf.acquire_urdf_interface()
+        # Set the settings in the import config
+        import_config = _urdf.ImportConfig()
+        import_config.merge_fixed_joints = False
+        import_config.convex_decomp = False
+        import_config.import_inertia_tensor = True
+        import_config.fix_base = True
+        import_config.make_default_prim = True
+        import_config.self_collision = False
+        import_config.create_physics_scene = False
+        import_config.import_inertia_tensor = False
+        import_config.default_drive_strength = 10000000.0
+        import_config.default_position_drive_damping = 100000.0
+        import_config.default_drive_type = _urdf.UrdfJointTargetType.JOINT_DRIVE_POSITION
+        import_config.distance_scale = 100 # (cm)
+        import_config.density = 0.0
+        # Get the urdf file path
+        root_path = "/home/ubb/Documents/docker_sim_comp/Isaac/ubb/Isaacdev/src/simple_move_group/urdf/"
+        file_name = "panda_isaac.urdf"
+        # Finally import the robot
+        imported_robot = urdf_interface.parse_urdf(root_path, file_name, import_config)
+        prim_path = urdf_interface.import_robot(root_path, file_name, imported_robot, import_config, "panda")
+        print(get_stage_units())
         # self.asset_path = nucleus_server + "/Isaac"
         # self.franka_table_usd = self.asset_path + "/Environments/Simple_Room/Props/table_low.usd"
         add_reference_to_stage(usd_path="/home/ubb/Documents/docker_sim_comp/Isaac/ubb/Isaacdev/src/simple_move_group/urdf/table.usd",
                                prim_path="/Spawned/table")
-        prim = XFormPrim(prim_path="/Spawned/table", name="table", position=np.array([63,0,-30]), orientation=np.array([0.707,0,0,0.707])) # w,x,y,z
+        prim = XFormPrim(prim_path="/Spawned/table", name="table", position=np.array([65,0,-30]), orientation=np.array([0.707,0,0,0.707])) # w,x,y,z
         self.world = self.get_world()
         self.world.scene.add(prim)
 
