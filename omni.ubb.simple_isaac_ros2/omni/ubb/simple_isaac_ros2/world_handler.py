@@ -22,7 +22,7 @@ class WorldHandler(BaseSample):
 
         result, prim = omni.kit.commands.execute("Ros2BridgeUseSimTime", use_sim_time=False)
         # TODO: replace with ros getshare path
-        omni.usd.get_context().open_stage("/home/ubb/Documents/docker_sim_comp/Isaac/ubb/Isaacdev/src/simple_move_group/urdf/world.usd")
+        omni.usd.get_context().open_stage("/home/ubb/Documents/docker_sim_comp/Isaac/ubb/Isaacdev/src/simple_arm/urdf/world.usd")
         urdf_interface = _urdf.acquire_urdf_interface()
         # Set the settings in the import config
         import_config = _urdf.ImportConfig()
@@ -40,7 +40,7 @@ class WorldHandler(BaseSample):
         import_config.distance_scale = 100 # (cm)
         import_config.density = 0.0
         # Get the urdf file path
-        root_path = "/home/ubb/Documents/docker_sim_comp/Isaac/ubb/Isaacdev/src/simple_move_group/urdf/"
+        root_path = "/home/ubb/Documents/docker_sim_comp/Isaac/ubb/Isaacdev/src/simple_arm/urdf/"
         file_name = "panda_isaac.urdf"
         # Finally import the robot
         imported_robot = urdf_interface.parse_urdf(root_path, file_name, import_config)
@@ -48,7 +48,7 @@ class WorldHandler(BaseSample):
         print(get_stage_units())
         # self.asset_path = nucleus_server + "/Isaac"
         # self.franka_table_usd = self.asset_path + "/Environments/Simple_Room/Props/table_low.usd"
-        add_reference_to_stage(usd_path="/home/ubb/Documents/docker_sim_comp/Isaac/ubb/Isaacdev/src/simple_move_group/urdf/table.usd",
+        add_reference_to_stage(usd_path="/home/ubb/Documents/docker_sim_comp/Isaac/ubb/Isaacdev/src/simple_arm/urdf/table.usd",
                                prim_path="/Spawned/table")
         prim = XFormPrim(prim_path="/Spawned/table", name="table", position=np.array([65,0,-30]), orientation=np.array([0.707,0,0,0.707])) # w,x,y,z
         self.world = self.get_world()
