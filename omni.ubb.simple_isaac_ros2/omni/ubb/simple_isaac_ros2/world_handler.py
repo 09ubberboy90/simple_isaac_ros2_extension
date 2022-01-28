@@ -50,7 +50,7 @@ class WorldHandler(BaseSample):
         # self.franka_table_usd = self.asset_path + "/Environments/Simple_Room/Props/table_low.usd"
         add_reference_to_stage(usd_path="/home/ubb/Documents/docker_sim_comp/Isaac/ubb/Isaacdev/src/simple_arm/urdf/table.usd",
                                prim_path="/Spawned/table")
-        prim = XFormPrim(prim_path="/Spawned/table", name="table", position=np.array([65,0,-30]), orientation=np.array([0.707,0,0,0.707])) # w,x,y,z
+        prim = XFormPrim(prim_path="/Spawned/table", name="table", position=np.array([70,0,-35]), orientation=np.array([0.707,0,0,0.707])) # w,x,y,z
         self.world = self.get_world()
         self.world.scene.add(prim)
 
