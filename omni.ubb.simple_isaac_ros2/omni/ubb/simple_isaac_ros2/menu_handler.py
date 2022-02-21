@@ -2,7 +2,7 @@ import omni.ext
 import os
 from omni.isaac.examples.base_sample import BaseSampleExtension
 
-from omni.ubb.simple_isaac_ros2 import ThrowHandler
+from omni.ubb.simple_isaac_ros2 import WorldHandler
 # Any class derived from `omni.ext.IExt` in top level module (defined in `python.modules` of `extension.toml`) will be
 # instantiated when extension gets enabled and `on_startup(ext_id)` will be called. Later when extension gets disabled
 # on_shutdown() is called.
@@ -19,6 +19,6 @@ class SimpleIsaacROS2Extension(BaseSampleExtension):
             doc_link="https://docs.omniverse.nvidia.com/app_isaacsim/app_isaacsim/tutorial_required_hello_world.html",
             overview="This Example introduces the user on how to do cool stuff with Isaac Sim through scripting in asynchronous mode.",
             file_path=os.path.abspath(__file__),
-            sample=ThrowHandler(),
+            sample=WorldHandler(),
         )
         print("[omni.example.hello] HelloExtension startup")
